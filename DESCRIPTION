@@ -1,0 +1,17 @@
+Package: tidyEdSurvey
+Version: 0.1.0
+Date: 2023-05-19
+Title: Integration of EdSurvey and Tidyverse
+Author: Blue Webb [aut, cre],
+        Tom Fink [ctb]
+Maintainer: Blue Webb <bwebb@air.org>
+Depends: R (>= 3.5.0),
+         EdSurvey (>= 3.1.0),
+Imports: dplyr,
+         ggplot2,
+         tidyselect,
+         lifecycle
+Description: Takes objects of class edsurvey.data.frame and converts them to a data.frame within the calling environment of tidyverse functions.
+License: GPL-2
+Encoding: UTF-8
+RoxygenNote: 7.2.3
