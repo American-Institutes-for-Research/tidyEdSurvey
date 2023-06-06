@@ -1,11 +1,17 @@
+#' @import methods 
 #' @import EdSurvey
 
 buildDF <- function(x,cols=NULL){
+  level <- x$cacheDataLevelName
   if(!is.null(cols)){
     vars <- cols
-  }else{
-    vars <- colnamesAttach(x)
+  }else {
+    vars <- colnamesAttach(x,level)
     vars <- vars[vars!="version"]
+  }
+
+  if(x$survey == "TIMSS"){
+    message(paste0("Using ",level," level data.\nTo use variables at another level, update `cacheDataLevelName`."))
   }
 
   vars2 <- vector(mode="character")
@@ -27,7 +33,7 @@ buildDF <- function(x,cols=NULL){
   }else{ # otherwise, we need to call getdata
     suppressWarnings(
       z <- EdSurvey::getData(x, varnames=vars2,
-                   dropUnusedLevels=TRUE, omittedLevels=FALSE,
+                   dropUnusedLevels=TRUE, omittedLevels=TRUE,
                    addAttributes=TRUE, returnJKreplicates=TRUE
       )
     )
@@ -36,14 +42,37 @@ buildDF <- function(x,cols=NULL){
 }
 
 #temporary fix for HSTS attach
-colnamesAttach <- function(esdf){
+colnamesAttach <- function(esdf,level=NULL){
   svy <- getAttributes(esdf, "survey")
   cols <- colnames(esdf)
+  cols <- cols[cols!="version"]
   ignoreVars <- c()
 
   if(svy == "HSTS"){
     #don't attach these
     ignoreLevels <- c("School_Catalog", "Test", "Transcript", "Transcript_Catalog")
+
+    for(i in seq_along(ignoreLevels)){
+      iL <- esdf$dataList[[ignoreLevels[i]]]
+      tVars <- iL$fileFormat$variableName
+      iVars <- iL$ignoreVars
+
+      if(is.null(iVars)){
+        iVars <- c()
+      }
+
+      ignoreVars <- c(ignoreVars, tVars[!tVars %in% iVars])
+    }
+    return(cols[!cols %in% ignoreVars])
+  }
+
+  if(svy == "TIMSS"){
+    levels <- c("Student", "School", "Teacher")
+    if(is.null(level)) {
+      level <- "Student"
+    }
+    #don't attach these
+    ignoreLevels <- levels[tolower(levels)!=tolower(level)]
 
     for(i in seq_along(ignoreLevels)){
       iL <- esdf$dataList[[ignoreLevels[i]]]

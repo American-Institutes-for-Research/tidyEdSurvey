@@ -1,8 +1,6 @@
-require(testthat)
-require(EdSurvey)
+skip_on_cran()
 skip_if_not_installed("dplyr")
-
-context("dplyr methods") 
+require(dplyr)
 
 if(!exists("edsurveyHome")) {
   if (Sys.info()[['sysname']] == "Windows") {
@@ -20,7 +18,7 @@ if (!dir.exists(edsurveyHome)) {
   dir.create(edsurveyHome)
 }
 
-context("dplyr methods") 
+context("dplyr methods")
 
 downloadTIMSS(root=edsurveyHome, year=2019, verbose = FALSE)
 
@@ -35,7 +33,7 @@ test_that("distinct",{
     distinct(idstud) %>%
     nrow() %>%
     expect_equal(4874)
-  
+
 })
 
 test_that("select",{
@@ -43,12 +41,40 @@ test_that("select",{
     select(ends_with("_f")) %>%
     ncol() %>%
     expect_equal(397)
-  
+
 })
 
+test_that("mutate",{
+  fin8.19_m <- fin8.19 %>%
+               mutate(books_in_home = case_when(
+                 bsbg04 %in% c("NONE OR VERY FEW (0-10 BOOKS)",
+                               "ENOUGH TO FILL ONE SHELF (11-25 BOOKS)") ~ "<= 25",
+                 bsbg04 %in% c("ENOUGH TO FILL ONE BOOKCASE (26-100 BOOKS)") ~ "26-100",
+                 bsbg04 %in% c("ENOUGH TO FILL TWO BOOKCASES (101-200 BOOKS)",
+                               "ENOUGH TO FILL THREE OR MORE BOOKCASES (MORE THAN 200)") ~ "> 100",
+                 bsbg04 %in% c("OMITTED OR INVALID",NA) ~ "Unknown"
+               ))
+  expect_equal(unique(fin8.19_m$books_in_home),c("<= 25","26-100","> 100","Unknown"))
 
+})
 
+test_that("group_by and summarise",{
+  fin8.19_s <- fin8.19 %>%
+    group_by("itsex") %>%
+    summarise(avg_math = mean(bsmmat01),
+              avg_sci = mean(bsssci01))
 
+  expect_equal(round(fin8.19_s$avg_math,4), 509.1624)
+  expect_equal(round(fin8.19_s$avg_sci,4), 544.1859)
+
+})
+
+test_that("filter",{
+  fin8.19 %>%
+    filter(itsex == "FEMALE") %>%
+    nrow() %>%
+    expect_equal(2366)
+})
 
 
 

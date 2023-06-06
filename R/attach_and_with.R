@@ -6,16 +6,20 @@
 #' @author Blue Webb
 #' @export
 setGeneric('attach',
-           def = function(what, pos = 2L, name = deparse1(substitute(what), backtick = FALSE), 
+           def = function(what, pos = 2L, name = deparse1(substitute(what), backtick = FALSE),
                           warn.conflicts = TRUE) {
-             
+
              if(!inherits(what,"edsurvey.data.frame")){
                standardGeneric("attach")
-             }
-             else{
+             }else {
+               level <- what$cacheDataLevelName
+               if(what$survey == "TIMSS"){
+                 message(paste0("Attaching ",level, " level variables to search path.\nTo attach variables at a different level, set `cacheDataLevelName`."))
+               }
+               vars = colnamesAttach(what,level)
                suppressWarnings(
-                 z <- getData(what, varnames=colnamesAttach(what),
-                              dropUnusedLevels=TRUE, omittedLevels=FALSE,
+                 z <- getData(what, varnames=vars,
+                              dropUnusedLevels=TRUE, omittedLevels=TRUE,
                               addAttributes=TRUE, returnJKreplicates=TRUE
                  )
                )
@@ -35,7 +39,7 @@ with.edsurvey.data.frame <- function(data,expr,...){
   }
   data_envr <- as.data.frame(as.list(data_envr))
   eval(substitute(expr), data_envr, enclos=parent.frame())
-  
+
 }
 
 
