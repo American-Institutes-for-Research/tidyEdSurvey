@@ -18,7 +18,6 @@ fortify.edsurvey.data.frame <- function(model,data,...){
   }else{ # otherwise, we need to call getdata
     suppressWarnings(
       z <- EdSurvey::getData(model, varnames=vars,
-                   dropUnusedLevels=TRUE, omittedLevels=TRUE,
                    addAttributes=TRUE, returnJKreplicates=FALSE)
     )
     ggplot2::fortify(z,data,...)

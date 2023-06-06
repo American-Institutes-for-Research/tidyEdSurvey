@@ -19,8 +19,7 @@ setGeneric('attach',
                vars = colnamesAttach(what,level)
                suppressWarnings(
                  z <- getData(what, varnames=vars,
-                              dropUnusedLevels=TRUE, omittedLevels=TRUE,
-                              addAttributes=TRUE, returnJKreplicates=TRUE
+                              addAttributes=TRUE
                  )
                )
                base::attach(z, pos, name, warn.conflicts)
