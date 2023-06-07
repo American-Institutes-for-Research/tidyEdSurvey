@@ -65,7 +65,7 @@ colnamesAttach <- function(esdf,level=NULL){
     return(cols[!cols %in% ignoreVars])
   }
 
-  if(svy == "TIMSS"){
+  if(svy %in% c("TIMSS","PIRLS","ePIRLS","TIMSS Advanced")){
     levels <- c("Student", "School", "Teacher")
     if(is.null(level)) {
       level <- "Student"

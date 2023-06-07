@@ -13,8 +13,8 @@ setGeneric('attach',
                standardGeneric("attach")
              }else {
                level <- what$cacheDataLevelName
-               if(what$survey == "TIMSS"){
-                 message(paste0("Attaching ",level, " level variables to search path.\nTo attach variables at a different level, set `cacheDataLevelName`."))
+               if(what$survey %in% c("TIMSS","PIRLS","ePIRLS","TIMSS Advanced")){
+                 message(paste0("Attaching ",level, " level variables to search path."))
                }
                vars = colnamesAttach(what,level)
                suppressWarnings(
