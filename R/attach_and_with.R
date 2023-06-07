@@ -18,7 +18,7 @@ setGeneric('attach',
                }
                vars = colnamesAttach(what,level)
                suppressWarnings(
-                 z <- getData(what, varnames=vars,
+                 z <- getData(what, varnames=vars, omittedLevels = FALSE,
                               addAttributes=TRUE
                  )
                )

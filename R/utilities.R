@@ -32,7 +32,7 @@ buildDF <- function(x,cols=NULL){
     return(z)
   }else{ # otherwise, we need to call getdata
     suppressWarnings(
-      z <- EdSurvey::getData(x, varnames=vars2,
+      z <- EdSurvey::getData(x, varnames=vars2, omittedLevels = FALSE,
                    addAttributes=TRUE
       )
     )
