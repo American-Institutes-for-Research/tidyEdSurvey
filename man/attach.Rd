@@ -2,7 +2,7 @@
 % Please edit documentation in R/attach_and_with.R
 \name{attach}
 \alias{attach}
-\title{this just implements attach for an edsurvey.data.frame and a light.edusrvey.data.frame}
+\title{this just implements attach for an edsurvey.data.frame and a light.edsurvey.data.frame}
 \usage{
 attach(
   what,
@@ -21,7 +21,7 @@ attach(
 \item{warn.conflicts}{equivalent to `warn.conflicts` in base::attach}
 }
 \description{
-this just implements attach for an edsurvey.data.frame and a light.edusrvey.data.frame
+this just implements attach for an edsurvey.data.frame and a light.edsurvey.data.frame
 }
 \author{
 Blue Webb

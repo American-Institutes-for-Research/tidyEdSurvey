@@ -27,7 +27,6 @@ fin8.19 <- readTIMSS(path=file.path(edsurveyHome, "TIMSS", "2019"),
 
 suppressMessages(attach(fin8.19))
 
-
 test_that("distinct",{
   fin8.19 %>%
     distinct(idstud) %>%
@@ -42,6 +41,14 @@ test_that("select",{
     ncol() %>%
     expect_equal(397)
 
+})
+
+test_that("select a subscale",{
+  fin8.19 %>%
+    select(mmat,ssci) %>%
+    ncol() %>%
+    expect_equal(10)
+  
 })
 
 test_that("mutate",{
@@ -60,12 +67,12 @@ test_that("mutate",{
 
 test_that("group_by and summarise",{
   fin8.19_s <- fin8.19 %>%
-    group_by("itsex") %>%
+    group_by(itsex) %>%
     summarise(avg_math = mean(bsmmat01),
               avg_sci = mean(bsssci01))
 
-  expect_equal(round(fin8.19_s$avg_math,4), 509.1624)
-  expect_equal(round(fin8.19_s$avg_sci,4), 544.1859)
+  expect_equal(round(fin8.19_s$avg_math,4), c(511.2766, 507.1680))
+  expect_equal(round(fin8.19_s$avg_sci,4), c(554.0858, 534.8465))
 
 })
 
@@ -77,7 +84,7 @@ test_that("filter",{
 })
 
 
-
+suppressMessages(detach(fin8.19))
 
 
 

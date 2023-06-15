@@ -9,11 +9,6 @@ buildDF <- function(x,cols=NULL){
     vars <- colnamesAttach(x,level)
     vars <- vars[vars!="version"]
   }
-
-  if(x$survey == "TIMSS"){
-    message(paste0("Using ",level," level data.\nTo use variables at another level, update `cacheDataLevelName`."))
-  }
-
   vars2 <- vector(mode="character")
   for(v in vars){
     if(EdSurvey::hasPlausibleValue(v,x)){
@@ -32,7 +27,7 @@ buildDF <- function(x,cols=NULL){
     return(z)
   }else{ # otherwise, we need to call getdata
     suppressWarnings(
-      z <- EdSurvey::getData(x, varnames=vars2, omittedLevels = FALSE,
+      z <- EdSurvey::getData(x, varnames=vars2, dropOmittedLevels = FALSE,
                    addAttributes=TRUE
       )
     )

@@ -516,11 +516,12 @@ sample_n.edsurvey.data.frame <- function (tbl, size, replace = FALSE, weight = N
 #' @importFrom dplyr select
 #' @export
 select.edsurvey.data.frame <- function (.data, ...){
-  args <- substitute(list(...))
+  call <- match.call()
   columns <- colnamesAttach(.data)
-  for(i in 2:length(args)){
-    var <- args[[i]]
-    if(!is.symbol(var)){
+  args <- list()
+  for(i in 3:length(call)) {
+    var <- call[[i]]
+    if(inherits(var,"call")) {
       verb <- all.names(var)
       pattern <- rlang::call_args(var)[[1]]
       if(verb == "matches"){
@@ -530,14 +531,20 @@ select.edsurvey.data.frame <- function (.data, ...){
       }else if(verb == "ends_with"){
         pattern <- paste0(pattern,"$")
       }
-      args[[i]] <- columns[grepl(pattern,columns)]
-    }else{
-      args[[i]] <- deparse(args[[i]])
+      args[[length(args)+1]] <- columns[grepl(pattern,columns)]
+    } 
+    else {
+      var <- ifelse(inherits(var,"name"),deparse(var),var)
+      if(hasPlausibleValue(var,.data)){
+        args[[length(args)+1]] <- getPlausibleValue(var,.data)
+      } else{
+        args[[length(args)+1]] <- call[[i]]
+      }
     }
   }
   .Class <- "data.frame"
-  .data <- buildDF(.data,cols=unlist(rlang::call_args(args)))
-  NextMethod()
+  .data <- buildDF(.data,cols=unlist(args))
+  .data[,unlist(args)]
 }
 
 

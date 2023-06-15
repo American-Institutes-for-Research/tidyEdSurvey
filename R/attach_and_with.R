@@ -1,4 +1,4 @@
-#' this just implements attach for an edsurvey.data.frame and a light.edusrvey.data.frame
+#' this just implements attach for an edsurvey.data.frame and a light.edsurvey.data.frame
 #' @param what equivalent to `what` in base::attach, but can also be an edsurvey.data.frame
 #' @param pos equivalent to `pos` in base::attach
 #' @param name equivalent to `name` in base::attach
@@ -18,7 +18,8 @@ setGeneric('attach',
                }
                vars = colnamesAttach(what,level)
                suppressWarnings(
-                 z <- getData(what, varnames=vars, omittedLevels = FALSE,
+                 z <- getData(what, varnames=vars, 
+                              dropOmittedLevels = FALSE,
                               addAttributes=TRUE
                  )
                )
