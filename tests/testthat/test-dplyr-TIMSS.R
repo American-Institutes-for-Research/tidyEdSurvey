@@ -2,27 +2,20 @@ skip_on_cran()
 skip_if_not_installed("dplyr")
 require(dplyr)
 
-if(!exists("edsurveyHome")) {
-  if (Sys.info()[['sysname']] == "Windows") {
-    edsurveyHome <- "C:/EdSurveyData/"
-  } else {
-    edsurveyHome <- "~/EdSurveyData/"
-  }
-}
-
-if(!exists("forceCacheUpdate")){
-  forceCacheUpdate <- FALSE
-}
-
-if (!dir.exists(edsurveyHome)) {
-  dir.create(edsurveyHome)
-}
-
 context("dplyr methods")
 
-downloadTIMSS(root=edsurveyHome, year=2019, verbose = FALSE)
+# if user has independently downloaded data it will be read from there,
+# otherwise it will be downloaded to the temporary session directory
+if(dir.exists("C:/EdSurveyData/TIMSS/2019")) {
+  path <- "C:/EdSurveyData"
+}else if(dir.exists("~/EdSurveyData/TIMSS/2019")) {
+  path <- "~/EdSurveyData"
+}else {
+  path <- tempdir()
+  downloadTIMSS(root=path, year=2019, verbose = FALSE)
+}
 
-fin8.19 <- readTIMSS(path=file.path(edsurveyHome, "TIMSS", "2019"),
+fin8.19 <- readTIMSS(path=file.path(path, "TIMSS", "2019"),
                          countries = "fin", gradeLvl = 8, verbose=FALSE)
 
 suppressMessages(attach(fin8.19))
@@ -86,5 +79,5 @@ test_that("filter",{
 
 suppressMessages(detach(fin8.19))
 
-
+file.remove(temp)
 

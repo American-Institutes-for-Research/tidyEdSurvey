@@ -1,8 +1,14 @@
-#' this just implements attach for an edsurvey.data.frame and a light.edsurvey.data.frame
-#' @param what equivalent to `what` in base::attach, but can also be an edsurvey.data.frame
-#' @param pos equivalent to `pos` in base::attach
-#' @param name equivalent to `name` in base::attach
-#' @param warn.conflicts equivalent to `warn.conflicts` in base::attach
+#' @title Attach an \code{edsurvey.data.frame} to Search Path
+#' @description Implements \code{\link{attach}} for an \code{edsurvey.data.frame} or a \code{light.edsurvey.data.frame} by attaching student level variables to the search path
+#' @details Because \code{attach} is a standard generic function that does not use method dispatch, we set this function as generic,
+#'          which means it overwrites \code{base::attach} on loading. If the object to attach is not an \code{edsurvey.data.frame} or a \code{light.edsurvey.data.frame},
+#'          the function will revert to the standard \code{base} method.
+#' @param what equivalent to `what` in \code{base::attach}, but can also be an \code{edsurvey.data.frame} or \code{light.edsurvey.data.frame}
+#' @param pos equivalent to `pos` in \code{base::attach}
+#' @param name equivalent to `name` in \code{base::attach}
+#' @param warn.conflicts equivalent to `warn.conflicts` in \code{base::attach}
+#' @return the environment is returned invisibly with a "name" attribute
+#' @seealso \ifelse{latex}{\code{attach}}{\code{\link[base:attach]{attach}}}
 #' @author Blue Webb
 #' @export
 setGeneric('attach',
