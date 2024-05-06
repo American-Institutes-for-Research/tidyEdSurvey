@@ -537,8 +537,12 @@ select.edsurvey.data.frame <- function (.data, ...){
       var <- ifelse(inherits(var,"name"),deparse(var),var)
       if(hasPlausibleValue(var,.data)){
         args[[length(args)+1]] <- getPlausibleValue(var,.data)
-      } else{
+      } 
+      else {
         args[[length(args)+1]] <- call[[i]]
+        if(isWeight(var,.data)) {
+          args[[length(args)+1]] <- getWeightJkReplicates(var,.data)
+        }
       }
     }
   }

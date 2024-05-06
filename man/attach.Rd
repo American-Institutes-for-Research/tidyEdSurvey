@@ -2,7 +2,7 @@
 % Please edit documentation in R/attach_and_with.R
 \name{attach}
 \alias{attach}
-\title{this just implements attach for an edsurvey.data.frame and a light.edsurvey.data.frame}
+\title{Attach an \code{edsurvey.data.frame} to Search Path}
 \usage{
 attach(
   what,
@@ -12,16 +12,27 @@ attach(
 )
 }
 \arguments{
-\item{what}{equivalent to `what` in base::attach, but can also be an edsurvey.data.frame}
+\item{what}{equivalent to `what` in \code{base::attach}, but can also be an \code{edsurvey.data.frame} or \code{light.edsurvey.data.frame}}
 
-\item{pos}{equivalent to `pos` in base::attach}
+\item{pos}{equivalent to `pos` in \code{base::attach}}
 
-\item{name}{equivalent to `name` in base::attach}
+\item{name}{equivalent to `name` in \code{base::attach}}
 
-\item{warn.conflicts}{equivalent to `warn.conflicts` in base::attach}
+\item{warn.conflicts}{equivalent to `warn.conflicts` in \code{base::attach}}
+}
+\value{
+the environment is returned invisibly with a "name" attribute
 }
 \description{
-this just implements attach for an edsurvey.data.frame and a light.edsurvey.data.frame
+Implements \code{\link{attach}} for an \code{edsurvey.data.frame} or a \code{light.edsurvey.data.frame} by attaching student level variables to the search path
+}
+\details{
+Because \code{attach} is a standard generic function that does not use method dispatch, we set this function as generic,
+         which means it overwrites \code{base::attach} on loading. If the object to attach is not an \code{edsurvey.data.frame} or a \code{light.edsurvey.data.frame},
+         the function will revert to the standard \code{base} method.
+}
+\seealso{
+\ifelse{latex}{\code{attach}}{\code{\link[base:attach]{attach}}}
 }
 \author{
 Blue Webb
