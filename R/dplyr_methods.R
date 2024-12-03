@@ -547,8 +547,9 @@ select.edsurvey.data.frame <- function (.data, ...){
     }
   }
   .Class <- "data.frame"
-  .data <- buildDF(.data,cols=unlist(args))
-  .data[,unlist(args)]
+  arg_vec <- as.character(unlist(args))
+  .data <- buildDF(.data,cols=arg_vec)
+  .data[,arg_vec]
 }
 
 
