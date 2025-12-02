@@ -10,14 +10,24 @@ test_that("density plot with facets and PVs",{
        ggplot(.,aes(x=composite,weight=origwt)) +
        geom_density() +
        facet_wrap(vars(sdracem))
-  expect_equal(class(p),c("gg","ggplot"))  
+  sdf2 <- getData(data=sdf, varnames=c("composite", "origwt", "sdracem"),dropOmittedLevels=TRUE)
+  p2 <- sdf2 %>% 
+       ggplot(.,aes(x=composite,weight=origwt)) +
+       geom_density() +
+       facet_wrap(vars(sdracem))
+  expect_equal(p, p2)
 })
 
 test_that("boxplot with facets and PVs",{
-  p <- sdf %>% 
+  p3 <- sdf %>% 
     ggplot(.,aes(x=composite,weight=origwt)) +
     geom_boxplot() +
     facet_wrap(vars(b003501))
-  expect_equal(class(p),c("gg","ggplot"))  
+  sdf2 <- getData(data=sdf, varnames=c("composite", "origwt", "sdracem"),dropOmittedLevels=TRUE)
+  p4 <- sdf2 %>% 
+    ggplot(.,aes(x=composite,weight=origwt)) +
+    geom_boxplot() +
+    facet_wrap(vars(b003501))
+  expect_equal(p3, p4)
 })
 
