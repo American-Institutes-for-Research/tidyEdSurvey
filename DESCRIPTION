@@ -1,5 +1,5 @@
 Package: tidyEdSurvey
-Version: 0.1.4
+Version: 0.1.14
 Date: 2025-12-02
 Title: Integration of 'dplyr' and 'ggplot2' with 'EdSurvey'
 Authors@R: c(person("Paul",
@@ -15,7 +15,7 @@ Authors@R: c(person("Paul",
                      "Fink",
                      role = "ctb",
                      comment = c(ORCID = "0009-0003-9308-2833")))
-Maintainer: Blue Webb <bwebb@air.org>
+Maintainer: Paul Bailey <pbailey@air.org>
 Depends: R (>= 3.5.0),
          EdSurvey (>= 4.0.1),
 Imports: dplyr,
