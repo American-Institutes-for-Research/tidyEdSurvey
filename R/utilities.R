@@ -11,7 +11,6 @@ buildDF <- function(x,cols=NULL){
   }
   vars2 <- vector(mode="character")
   for(v in vars){
-    v <- as.character(v)
     if(EdSurvey::hasPlausibleValue(v,x)){
       vars2 <- c(vars2,EdSurvey::getPlausibleValue(v,x))
     }else{
