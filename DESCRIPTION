@@ -1,6 +1,6 @@
 Package: tidyEdSurvey
-Version: 0.1.14
-Date: 2025-12-02
+Version: 0.1.4
+Date: 2025-12-03
 Title: Integration of 'dplyr' and 'ggplot2' with 'EdSurvey'
 Authors@R: c(person("Paul",
                     "Bailey",
